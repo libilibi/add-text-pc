@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+}
+
+.left-panel {
+    float: left;
+    background-color: #444444;
+    position: relative;
+}
+
+#c1 {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#img_output {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.right-panel {
+    position: fixed;
+    right: 0;
+    width: 320px;
+    height: 100%;
+    background-color: #cccccc;
+}
+.option-name {
+    width: 100px;
+    float: left;
+}
+textarea {
+    width: 300px;
+    height: 400px;
+}

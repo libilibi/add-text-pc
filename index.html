@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+    <body>
+        <div class="left-panel">
+            <canvas id="c1"></canvas>
+            <canvas id="c2" style="display:none"></canvas>
+            <img id="img_output" style="display:none"/>
+        </div>
+        <div class="right-panel">
+            <div>
+                <input type="file" name="" id="img_file"/>
+            </div>
+            <div>
+                <div class="option-name">
+                    <label for="">文字色</label>
+                </div>
+                <input type="color" name="" id="text-color" value="#ffffff" />
+            </div>
+            <div>
+                <div class="option-name">
+                    <label for="">フチの色</label>
+                </div>
+                <input type="checkbox" name="" id="text-frame" checked/>
+                <input type="color" name="" id="text-frame-color" />
+            </div>
+            <div>
+                <div class="option-name">
+                    <label for="">影</label>
+                </div>
+                <input type="checkbox" name="" id="text-shadow" checked/>
+                <input type="color" name="" id="text-shadow-color" />
+            </div>
+            <div>
+                <div class="option-name">
+                    <label for="">フォント</label>
+                </div>
+                <select id="font">
+                    <option value="sans-serif">ゴシック体</option>
+                    <option value="serif">明朝体</option>
+                </select>
+            </div>
+            <div>
+                <label for="">テキストの方向</label>
+                <input type="radio" name="orientation" value="landscape" checked><label for="">横書き</label></input>
+                <input type="radio" name="orientation" value="portrait"><label for="">縦書き</label></input>
+            </div>
+            <div>
+                <label for="">テキストの位置</label>
+                <select id="layout">
+                    <option value="overlay">画像に重ねる</option>
+                    <option value="right">画像の右</option>
+                    <option value="left">画像の左</option>
+                    <option value="bottom">画像の下</option>
+                </select>
+            </div>
+            <div id="background">
+                <label>背景色</label>
+                <input type="color" name="" id="background-color" />
+            </div>
+            <div>
+                <label for="">フォントサイズ</label>
+                <input type="text" name="" id="font-size"/>
+            </div>
+            <div>
+                <textarea id="text"></textarea>
+            </div>
+        </div>
+    </body>
+</html>
