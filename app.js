@@ -1,13 +1,15 @@
 'use strict';
 
 $(function() {
+    const RIGHT_PANEL_WIDTH = $('.right-panel').width();
+    
     $('#c1').css('max-height', (window.innerHeight - 2));
     
     $('#img_file').change(function(e) {
         fileChanged(e.originalEvent);
-        $('.left-panel').width(window.innerWidth - 320).height(window.innerHeight);
-        $('#c1').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - 320);
-        $('#img_output').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - 320);
+        $('.left-panel').width(window.innerWidth - RIGHT_PANEL_WIDTH).height(window.innerHeight);
+        $('#c1').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - RIGHT_PANEL_WIDTH);
+        $('#img_output').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - RIGHT_PANEL_WIDTH);
     });
     
     $('#text-color').change(function() {
@@ -37,9 +39,9 @@ $(function() {
         updateImage();
     });
     $(window).resize(function() {
-        $('.left-panel').width(window.innerWidth - 320).height(window.innerHeight);
-        $('#c1').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - 320);
-        $('#img_output').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - 320);
+        $('.left-panel').width(window.innerWidth - RIGHT_PANEL_WIDTH).height(window.innerHeight);
+        $('#c1').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - RIGHT_PANEL_WIDTH);
+        $('#img_output').css('max-height', (window.innerHeight - 2)).css('max-width', window.innerWidth - RIGHT_PANEL_WIDTH);
     });
     $('#font-size').change(function() {
         updateCanvas();
@@ -101,43 +103,50 @@ function updateCanvas() {
     $('#img_output').hide();
     
     // レイアウト計算
-    let canvasWidth;
-    let canvasHeight;
+    let outImgWidth;
+    let outImgHeight;
     let picX;
     let picY;
     let textX;
     let textY;
     if ($('#layout').val() == 'overlay') {
-        canvasWidth = mainImage.width * scale;
-        canvasHeight = mainImage.height * scale;
+        outImgWidth = mainImage.width;
+        outImgHeight = mainImage.height;
         picX = 0;
         picY = 0;
         textX = 0;
         textY = 0;
     } else if($('#layout').val() == 'left') {
-        canvasWidth = mainImage.width * scale * 2;
-        canvasHeight = mainImage.height * scale;
+        outImgWidth = mainImage.width * 2;
+        outImgHeight = mainImage.height;
         picX = mainImage.width * scale;
         picY = 0;
         textX = 0;
         textY = 0;
     } else if($('#layout').val() == 'right') {
-        canvasWidth = mainImage.width * scale * 2;
-        canvasHeight = mainImage.height * scale;
+        outImgWidth = mainImage.width * 2;
+        outImgHeight = mainImage.height;
         picX = 0;
         picY = 0;
         textX = mainImage.width * scale;
         textY = 0;
     } else if($('#layout').val() == 'bottom') {
-        canvasWidth = mainImage.width * scale;
-        canvasHeight = mainImage.height * scale * 2;
+        outImgWidth = mainImage.width;
+        outImgHeight = mainImage.height * 2;
         picX = 0;
         picY = 0;
         textX = 0;
         textY = mainImage.height * scale;
     }
+    let canvasWidth = outImgWidth * scale;
+    let canvasHeight = outImgHeight * scale;
     $('#c1').attr('width', canvasWidth);
     $('#c1').attr('height', canvasHeight);
+    if (outImgWidth < window.innerWidth - 320 && outImgHeight < window.innerHeight) {
+        $('#c1').width(outImgWidth).height(outImgHeight);
+    } else {
+        $('#c1').width('auto').height('auto');
+    }
     
     // 画像を描画
     var ctx = $('#c1')[0].getContext('2d');
@@ -181,24 +190,18 @@ function updateCanvas() {
             }
             
             if ($('input[name=orientation]:checked').val() == 'portrait') {
-            strokeTextPortrait(ctx, lines[i], fontSize, -fontSize * i * 1.5 + textX, textY);
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            fillTextPortrait(ctx, lines[i], fontSize, -fontSize * i * 1.5 + textX, textY);
-        } else {
-            ctx.strokeText(lines[i], textX, fontSize * i * 1.5 + textY);
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            ctx.fillText(lines[i], textX, fontSize * i * 1.5 + textY);
-        }
-            
-//            ctx.strokeText(lines[i], textX, lineHeight * i + textY);
-//            ctx.shadowBlur = 0;
-//            ctx.shadowOffsetX = 0;
-//            ctx.shadowOffsetY = 0;
-//            ctx.fillText(lines[i], textX, lineHeight * i + textY);
+                strokeTextPortrait(ctx, lines[i], fontSize, -fontSize * i * 1.5 + textX, textY);
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                fillTextPortrait(ctx, lines[i], fontSize, -fontSize * i * 1.5 + textX, textY);
+            } else {
+                ctx.strokeText(lines[i], textX, fontSize * i * 1.5 + textY);
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.fillText(lines[i], textX, fontSize * i * 1.5 + textY);
+            }
         } else {
             if (shadowFlag) {
                 ctx.shadowBlur = 20;
