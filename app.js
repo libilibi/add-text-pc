@@ -220,10 +220,12 @@ function updateImage() {
     var img = new Image();
     img.src = $('#c1')[0].toDataURL('image/png');
     $('#c2').attr('width', $('#c1').attr('width') / scale).attr('height', $('#c1').attr('height') / scale);
-    var ctx2 = $('#c2')[0].getContext('2d');
-    ctx2.drawImage(img, 0, 0, img.width / scale, img.height / scale);
-    $('#img_output').css('max-height', (window.innerHeight - 2));
-    $('#img_output').attr('src', $('#c2')[0].toDataURL('image/jpeg'));
+    img.onload = function() {
+        var ctx2 = $('#c2')[0].getContext('2d');
+        ctx2.drawImage(img, 0, 0, img.width / scale, img.height / scale);
+        $('#img_output').css('max-height', (window.innerHeight - 2));
+        $('#img_output').attr('src', $('#c2')[0].toDataURL('image/jpeg'));
+    };
 }
 
 function strokeTextPortrait(context, text, fontHeight, x, y) {
