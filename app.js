@@ -65,6 +65,10 @@ $(function() {
     } else {
         $('#background').show();
     }
+    $('#background-color').change(function() {
+        updateCanvas();
+        updateImage();
+    });
 });
 
 var mainImage;
